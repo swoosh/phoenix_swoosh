@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/swoosh/phoenix_swoosh.svg?branch=master)](https://travis-ci.org/swoosh/phoenix_swoosh)
 [![Inline docs](http://inch-ci.org/github/swoosh/phoenix_swoosh.svg?branch=master&style=flat)](http://inch-ci.org/github/swoosh/phoenix_swoosh)
+[![Deps Status](https://beta.hexfaktor.org/badge/all/github/swoosh/phoenix_swoosh.svg)](https://beta.hexfaktor.org/github/swoosh/phoenix_swoosh)
 
 Use Swoosh to easily send emails in your Phoenix project.
 

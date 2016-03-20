@@ -31,7 +31,7 @@ defmodule PhoenixSwoosh.Mixfile do
   end
 
   defp deps do
-    [{:swoosh, path: "../swoosh"},
+    [{:swoosh, github: "swoosh/swoosh"},
      {:phoenix, "~> 1.1"},
      {:phoenix_html, "~> 2.2"},
      {:credo, "~> 0.3", only: [:dev, :test]},

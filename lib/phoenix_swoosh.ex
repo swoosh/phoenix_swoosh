@@ -51,7 +51,7 @@ defmodule Phoenix.Swoosh do
       @view view
       @layout layout || false
 
-      def render_body(email, template, assigns) do
+      def render_body(email, template, assigns \\ %{}) do
         email
         |> put_new_layout(@layout)
         |> put_new_view(@view)

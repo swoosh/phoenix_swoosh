@@ -22,6 +22,9 @@ defmodule Phoenix.SwooshTest do
     def welcome_html_assigns(), do: email() |> render_body("welcome_assigns.html", %{name: "Tony"})
     def welcome_text_assigns(), do: email() |> render_body("welcome_assigns.text", %{name: "Tony"})
 
+    def welcome_html_without_assigns(), do: email() |> render_body("welcome.html")
+    def welcome_text_without_assigns(), do: email() |> render_body("welcome.text")
+
     def welcome_html_layout() do
       email()
       |> put_layout({LayoutView, "email.html"})
@@ -32,6 +35,18 @@ defmodule Phoenix.SwooshTest do
       email()
       |> put_layout({LayoutView, "email.text"})
       |> render_body("welcome.text", %{})
+    end
+
+    def welcome_html_layout_without_assigns() do
+      email()
+      |> put_layout({LayoutView, "email.html"})
+      |> render_body("welcome.html")
+    end
+
+    def welcome_text_layout_without_assigns() do
+      email()
+      |> put_layout({LayoutView, "email.text"})
+      |> render_body("welcome.text")
     end
 
     def welcome_html_layout_assigns() do
@@ -167,19 +182,39 @@ defmodule Phoenix.SwooshTest do
            TestEmail.welcome_html()
   end
 
-  test "macro: render html body with layout" do
-    assert %Email{html_body: "<html><h1>Welcome, Avengers!</h1>\n</html>\n"} =
-           TestEmail.welcome_html_layout()
-  end
-
   test "macro: render text body" do
     assert %Email{text_body: "Welcome, Avengers!\n"} =
            TestEmail.welcome_text()
   end
 
+  test "macro: render html body with layout" do
+    assert %Email{html_body: "<html><h1>Welcome, Avengers!</h1>\n</html>\n"} =
+           TestEmail.welcome_html_layout()
+  end
+
   test "macro: render text body with layout" do
     assert %Email{text_body: "TEXT: Welcome, Avengers!\n\n"} =
            TestEmail.welcome_text_layout()
+  end
+
+  test "macro: render html body with layout without assigns" do
+    assert %Email{html_body: "<html><h1>Welcome, Avengers!</h1>\n</html>\n"} =
+           TestEmail.welcome_html_layout_without_assigns()
+  end
+
+  test "macro: render text body with layout without assigns" do
+    assert %Email{text_body: "TEXT: Welcome, Avengers!\n\n"} =
+           TestEmail.welcome_text_layout_without_assigns()
+  end
+
+  test "macro: render html body without assigns" do
+    assert %Email{html_body: "<h1>Welcome, Avengers!</h1>\n"} =
+           TestEmail.welcome_html_without_assigns()
+  end
+
+  test "macro: render text body without assigns" do
+    assert %Email{text_body: "Welcome, Avengers!\n"} =
+           TestEmail.welcome_text_without_assigns()
   end
 
   test "macro: render html body with assigns" do

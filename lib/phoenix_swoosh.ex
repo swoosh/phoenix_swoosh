@@ -111,7 +111,7 @@ defmodule Phoenix.Swoosh do
   ## Layouts
 
   Templates are often rendered inside layouts. If you wish to do so you will have
-  to specify which layout you want to use when using the Phoenix.Swoosh module.
+  to specify which layout you want to use when using the `Phoenix.Swoosh` module.
 
       defmodule Sample.UserEmail do
         use Phoenix.Swoosh, view: Sample.EmailView, layout: {Sample.LayoutView, :email}

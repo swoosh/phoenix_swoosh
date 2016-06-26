@@ -27,7 +27,7 @@ defmodule PhoenixSwoosh.Mixfile do
   defp compilers(_), do: Mix.compilers
 
   def application do
-    [applications: [:logger]]
+    [applications: [:logger, :swoosh]]
   end
 
   defp deps do

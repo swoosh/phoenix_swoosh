@@ -1,6 +1,6 @@
-%{"bunt": {:hex, :bunt, "0.1.5", "c378ea1698232597d3778e4b83234dcea4a60e7c28114b0fe53657a2c0d8885e", [:mix], []},
+%{"bunt": {:hex, :bunt, "0.1.6", "5d95a6882f73f3b9969fdfd1953798046664e6f77ec4e486e6fafc7caad97c6f", [:mix], []},
   "certifi": {:hex, :certifi, "0.4.0", "a7966efb868b179023618d29a407548f70c52466bf1849b9e8ebd0e34b7ea11f", [:rebar3], []},
-  "credo": {:hex, :credo, "0.3.8", "d98d65a055f0ce1795eda892b1f6b7e5a3c1c790bf25210be01c4567ea2c2475", [:mix], [{:bunt, "~> 0.1.4", [hex: :bunt, optional: false]}]},
+  "credo": {:hex, :credo, "0.4.5", "5c5daaf50a2a96068c0f21b6fbd382d206702efa8836a946eeab0b8ac25f5f22", [:mix], [{:bunt, "~> 0.1.6", [hex: :bunt, optional: false]}]},
   "earmark": {:hex, :earmark, "0.2.1", "ba6d26ceb16106d069b289df66751734802777a3cbb6787026dd800ffeb850f3", [:mix], []},
   "ex_doc": {:hex, :ex_doc, "0.11.4", "a064bdb720594c3745b94709b17ffb834fd858b4e0c1f48f37c0d92700759e02", [:mix], [{:earmark, "~> 0.1.17 or ~> 0.2", [hex: :earmark, optional: true]}]},
   "gen_smtp": {:hex, :gen_smtp, "0.11.0", "d90ff2f021fc86cb2a4259b1f2b177ab6e506676265e26454bf5755855adc956", [:rebar3], []},

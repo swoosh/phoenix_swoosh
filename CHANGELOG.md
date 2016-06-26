@@ -1,5 +1,14 @@
 ## Changelog
 
+## v0.1.3 - 2016-06-26
+### Added
+* Add swoosh to the list of applications in `mix.exs`.
+
+### Changed
+* Bump phoenix to 1.2.
+* Bump phoenix_html to 2.6.
+* Bump swoosh to 0.4.
+
 ## v0.1.2 - 2016-06-12
 ### Added
 * Add support for Phoenix 1.2 release candidate.

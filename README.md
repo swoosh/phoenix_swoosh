@@ -27,6 +27,14 @@ See the [docs](http://hexdocs.pm/phoenix_swoosh) for more information.
       [applications: [:swoosh]]
     end
     ```
+    
+    For Elixir >= 1.4
+    
+    ```elixir
+    def application do
+      [extra_applications: [:swoosh]]
+    end
+    ```
 
 ## Documentation
 

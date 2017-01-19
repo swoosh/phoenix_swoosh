@@ -12,19 +12,19 @@ See the [docs](http://hexdocs.pm/phoenix_swoosh) for more information.
 
 ## Installation
 
-  1. Add phoenix_swoosh to your list of dependencies in `mix.exs`:
+  1. Add `phoenix_swoosh` to your list of dependencies in `mix.exs`:
 
     ```elixir
     def deps do
-      [{:phoenix_swoosh, "~> 0.1.3"}]
+      [{:phoenix_swoosh, "~> 0.1.3", runtime: false}]
     end
     ```
 
-  2. Ensure phoenix_swoosh is started before your application:
+  2. Ensure `swoosh` is started before your application:
 
     ```elixir
     def application do
-      [applications: [:phoenix_swoosh]]
+      [applications: [:swoosh]]
     end
     ```
 

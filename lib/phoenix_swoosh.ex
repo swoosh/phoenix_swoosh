@@ -147,7 +147,7 @@ defmodule Phoenix.Swoosh do
   end
 
   defp do_render_body(email, template, format, assigns) do
-    assigns = to_map(assigns)
+    assigns = Enum.into(assigns, %{})
     email =
       email
       |> put_private(:phoenix_template, template)
@@ -257,10 +257,6 @@ defmodule Phoenix.Swoosh do
       false
     end
   end
-
-  defp to_map(assigns) when is_map(assigns), do: assigns
-  defp to_map(assigns) when is_list(assigns), do: :maps.from_list(assigns)
-  defp to_map(assigns), do: Dict.merge(%{}, assigns)
 
   defp template_name(name, format) when is_atom(name), do:
     Atom.to_string(name) <> "." <> format

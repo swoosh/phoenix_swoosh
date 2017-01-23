@@ -10,11 +10,11 @@ defmodule PhoenixSwoosh.Mixfile do
      compilers: compilers(Mix.env),
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     deps: deps,
+     deps: deps(),
 
      # Hex
-     description: description,
-     package: package,
+     description: description(),
+     package: package(),
 
      # Docs
      name: "Phoenix.Swoosh",

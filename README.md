@@ -16,7 +16,7 @@ See the [docs](http://hexdocs.pm/phoenix_swoosh) for more information.
 
     ```elixir
     def deps do
-      [{:phoenix_swoosh, "~> 0.1.3"}]
+      [{:phoenix_swoosh, "~> 0.2"}]
     end
     ```
 

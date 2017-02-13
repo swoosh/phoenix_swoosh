@@ -1,5 +1,9 @@
 ## Changelog
 
+## v0.2.0 - 2017-02-13
+### Changed
+* Removed usage of deprecated `Dict`.
+
 ## v0.1.3 - 2016-06-26
 ### Added
 * Add swoosh to the list of applications in `mix.exs`.

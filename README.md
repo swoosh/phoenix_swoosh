@@ -14,19 +14,19 @@ See the [docs](http://hexdocs.pm/phoenix_swoosh) for more information.
 
   1. Add phoenix_swoosh to your list of dependencies in `mix.exs`:
 
-    ```elixir
-    def deps do
-      [{:phoenix_swoosh, "~> 0.2"}]
-    end
-    ```
+```elixir
+def deps do
+  [{:phoenix_swoosh, "~> 0.2"}]
+end
+```
 
   2. Ensure phoenix_swoosh is started before your application:
 
-    ```elixir
-    def application do
-      [applications: [:phoenix_swoosh]]
-    end
-    ```
+```elixir
+def application do
+  [applications: [:phoenix_swoosh]]
+end
+```
 
 ## Documentation
 

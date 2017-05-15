@@ -20,7 +20,7 @@ def deps do
 end
 ```
 
-  2. Ensure phoenix_swoosh is started before your application:
+  2. (Optional - only for Elixir < 1.4) Ensure phoenix_swoosh is started before your application:
 
 ```elixir
 def application do

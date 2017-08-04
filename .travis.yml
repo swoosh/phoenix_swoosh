@@ -1,9 +1,11 @@
 language: elixir
 sudo: false
 elixir:
-  - 1.2
+  - 1.4
+  - 1.5
 otp_release:
-  - 18.2
+  - 19.3
+  - 20.0
 after_script:
   - mix deps.get --only docs
   - MIX_ENV=docs mix inch.report

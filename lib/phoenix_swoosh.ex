@@ -157,8 +157,11 @@ defmodule Phoenix.Swoosh do
             raise "a view module was not specified, set one with put_view/2"
 
     content = Phoenix.View.render_to_string(view, template, Map.put(email.assigns, :email, email))
-    Map.put(email, :"#{format}_body", content)
+    Map.put(email, body_key(format), content)
   end
+
+  defp body_key(format) when format in ["html", "htm", "xml"], do: :html_body
+  defp body_key(_other), do: :text_body
 
   @doc """
   Stores the layout for rendering.

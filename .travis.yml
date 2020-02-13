@@ -1,15 +1,38 @@
 language: elixir
 sudo: false
-elixir:
-  - 1.7
-  - 1.8
-  - 1.9
-otp_release:
-  - 21.3
-  - 22.0
-after_script:
-  - mix deps.get --only docs
-  - MIX_ENV=docs mix inch.report
+cache:
+  directories:
+    - _build
+    - deps
+branches:
+  only:
+    - master
+elixir: '1.10'
+otp_release: '22.2'
+stages:
+  - test
+  - name: inch
+    if: type = push
+jobs:
+  include:
+    - stage: test
+    
+    - opt_release: '22.2'
+      elixir: '1.9'
+
+    - otp_release: '21.2'
+      elixir: '1.8'
+
+    - otp_release: '21.2'
+      elixir: '1.7'
+
+    - otp_release: '21.2'
+      elixir: '1.6'
+
+    - stage: inch
+      script:
+        - mix deps.get --only docs
+        - MIX_ENV=docs mix inch.report
 notifications:
   recipients:
     - steve@stevedomin.com

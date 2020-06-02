@@ -8,7 +8,7 @@ branches:
   only:
     - master
 elixir: '1.10'
-otp_release: '22.2'
+otp_release: '23.0'
 stages:
   - test
   - name: inch
@@ -25,9 +25,6 @@ jobs:
 
     - otp_release: '21.2'
       elixir: '1.7'
-
-    - otp_release: '21.2'
-      elixir: '1.6'
 
     - stage: inch
       script:

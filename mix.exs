@@ -32,11 +32,11 @@ defmodule PhoenixSwoosh.Mixfile do
 
   defp deps do
     [{:swoosh, "~> 1.0"},
-     {:phoenix, "~> 1.0"},
-     {:phoenix_html, "~> 2.2"},
+     {:phoenix, "~> 1.4"},
+     {:phoenix_html, "~> 2.14"},
      {:hackney, "~> 1.9"},
      {:credo, "~> 1.0", only: [:dev, :test]},
-     {:ex_doc, "~> 0.16", only: :docs},
+     {:ex_doc, "~> 0.22", only: :docs},
      {:inch_ex, ">= 0.0.0", only: :docs}]
   end
 

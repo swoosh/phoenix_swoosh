@@ -1,12 +1,12 @@
 defmodule PhoenixSwoosh.Mixfile do
   use Mix.Project
 
-  @version "0.2.0"
+  @version "0.3.0"
 
   def project do
     [app: :phoenix_swoosh,
      version: @version,
-     elixir: "~> 1.2",
+     elixir: "~> 1.8",
      compilers: compilers(Mix.env),
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
@@ -47,7 +47,7 @@ defmodule PhoenixSwoosh.Mixfile do
   end
 
   defp package do
-    [maintainers: ["Steve Domin"],
+    [maintainers: ["Steve Domin", "Po Chen"],
      licenses: ["MIT"],
      links: %{"GitHub" => "https://github.com/swoosh/phoenix_swoosh"}]
   end

@@ -1,26 +1,41 @@
 ## Changelog
 
-## v0.2.0 - 2017-02-13
+## v0.3.0 - 2020-07-14
+
 ### Changed
-* Removed usage of deprecated `Dict`.
+
+- Bump Swoosh to 1.0
+
+## v0.2.0 - 2017-02-13
+
+### Changed
+
+- Removed usage of deprecated `Dict`.
 
 ## v0.1.3 - 2016-06-26
+
 ### Added
-* Add swoosh to the list of applications in `mix.exs`.
+
+- Add swoosh to the list of applications in `mix.exs`.
 
 ### Changed
-* Bump phoenix to 1.2.
-* Bump phoenix_html to 2.6.
-* Bump swoosh to 0.4.
+
+- Bump phoenix to 1.2.
+- Bump phoenix_html to 2.6.
+- Bump swoosh to 0.4.
 
 ## v0.1.2 - 2016-06-12
+
 ### Added
-* Add support for Phoenix 1.2 release candidate.
+
+- Add support for Phoenix 1.2 release candidate.
 
 ## v0.1.1
+
 ### Fixed
-* Add default assigns value to `render_body/3` inside the `use` macro
+
+- Add default assigns value to `render_body/3` inside the `use` macro
 
 ## v0.1.0
 
-* Initial version
+- Initial version

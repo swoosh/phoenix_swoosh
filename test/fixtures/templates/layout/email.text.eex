@@ -1,1 +1,1 @@
-TEXT: <%= render @view_module, @view_template, assigns %>
+TEXT: <%= @inner_content %>

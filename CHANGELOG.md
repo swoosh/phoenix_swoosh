@@ -1,5 +1,11 @@
 ## Changelog
 
+## v0.3.1
+
+### Changes
+
+- Fix warnings on Elixir v1.11 about missing apps @josevalim (#152)
+
 ## v0.3.0 - 2020-07-14
 
 ### Changed

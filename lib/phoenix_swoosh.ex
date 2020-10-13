@@ -13,7 +13,7 @@ defmodule Phoenix.Swoosh do
           <title><%= @email.subject %></title>
         </head>
         <body>
-          <%= render @view_module, @view_template, assigns %>
+          <%= @inner_content %>
         </body>
       </html>
 

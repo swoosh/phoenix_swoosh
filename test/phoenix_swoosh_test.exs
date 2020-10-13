@@ -290,4 +290,24 @@ defmodule Phoenix.SwooshTest do
       end
     end
   end
+
+  test "body formats are set according to template file extension", %{email: email} do
+    assert email |> render_body("format_html.html", %{}) |> Map.fetch!(:html_body) =~
+             "This is an HTML template"
+
+    assert email |> render_body("format_html.htm", %{}) |> Map.fetch!(:html_body) =~
+             "This is an HTML template"
+
+    assert email |> render_body("format_html.xml", %{}) |> Map.fetch!(:html_body) =~
+             "This is an HTML template"
+
+    assert email |> render_body("format_text.txt", %{}) |> Map.fetch!(:text_body) =~
+             "This is a text template"
+
+    assert email |> render_body("format_text.text", %{}) |> Map.fetch!(:text_body) =~
+             "This is a text template"
+
+    assert email |> render_body("format_text.unknown", %{}) |> Map.fetch!(:text_body) =~
+             "This is a text template"
+  end
 end

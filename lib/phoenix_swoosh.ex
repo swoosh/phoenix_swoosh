@@ -262,8 +262,6 @@ defmodule Phoenix.Swoosh do
     end
   end
 
-  defp template_name(name, format) when is_atom(name), do:
-    Atom.to_string(name) <> "." <> format
-  defp template_name(name, _format) when is_binary(name), do:
-    name
+  defp template_name(name, format) when is_atom(name), do: Atom.to_string(name) <> "." <> format
+  defp template_name(name, _format) when is_binary(name), do: name
 end

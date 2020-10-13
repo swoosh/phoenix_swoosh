@@ -65,6 +65,7 @@ defmodule Phoenix.Swoosh do
 
   Once the template is rendered the resulting string is stored on the email fields `html_body` and `text_body` depending
   on the format of the template.
+  `.html`, `.htm`, and `.xml` are stored in `html_body`; all other extensions, (e.g. `.txt` and `.text`), in `text_body`.
 
   ## Arguments
 
@@ -157,8 +158,11 @@ defmodule Phoenix.Swoosh do
             raise "a view module was not specified, set one with put_view/2"
 
     content = Phoenix.View.render_to_string(view, template, Map.put(email.assigns, :email, email))
-    Map.put(email, :"#{format}_body", content)
+    Map.put(email, body_key(format), content)
   end
+
+  defp body_key(format) when format in ["html", "htm", "xml"], do: :html_body
+  defp body_key(_other), do: :text_body
 
   @doc """
   Stores the layout for rendering.
@@ -258,8 +262,6 @@ defmodule Phoenix.Swoosh do
     end
   end
 
-  defp template_name(name, format) when is_atom(name), do:
-    Atom.to_string(name) <> "." <> format
-  defp template_name(name, _format) when is_binary(name), do:
-    name
+  defp template_name(name, format) when is_atom(name), do: Atom.to_string(name) <> "." <> format
+  defp template_name(name, _format) when is_binary(name), do: name
 end

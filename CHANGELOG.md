@@ -1,5 +1,13 @@
 ## Changelog
 
+## v0.3.2
+
+### Changes
+
+### ✨ Features
+
+- Set correct body field depending on template format @wmnnd (#154)
+
 ## v0.3.1
 
 ### Changes

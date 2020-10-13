@@ -65,6 +65,7 @@ defmodule Phoenix.Swoosh do
 
   Once the template is rendered the resulting string is stored on the email fields `html_body` and `text_body` depending
   on the format of the template.
+  `.html`, `.htm`, and `.xml` are stored in `html_body`; all other extensions, (e.g. `.txt` and `.text`), in `text_body`.
 
   ## Arguments
 

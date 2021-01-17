@@ -1,9 +1,5 @@
 # Phoenix.Swoosh
 
-[![Build Status](https://travis-ci.org/swoosh/phoenix_swoosh.svg?branch=main)](https://travis-ci.org/swoosh/phoenix_swoosh)
-[![Inline docs](http://inch-ci.org/github/swoosh/phoenix_swoosh.svg?branch=main&style=flat)](http://inch-ci.org/github/swoosh/phoenix_swoosh)
-[![Deps Status](https://beta.hexfaktor.org/badge/all/github/swoosh/phoenix_swoosh.svg)](https://beta.hexfaktor.org/github/swoosh/phoenix_swoosh)
-
 Use Swoosh to easily send emails in your Phoenix project.
 
 This module provides the ability to set the HTML and/or text body of an email by rendering templates.

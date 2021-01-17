@@ -1,7 +1,7 @@
 # Phoenix.Swoosh
 
-[![Build Status](https://travis-ci.org/swoosh/phoenix_swoosh.svg?branch=master)](https://travis-ci.org/swoosh/phoenix_swoosh)
-[![Inline docs](http://inch-ci.org/github/swoosh/phoenix_swoosh.svg?branch=master&style=flat)](http://inch-ci.org/github/swoosh/phoenix_swoosh)
+[![Build Status](https://travis-ci.org/swoosh/phoenix_swoosh.svg?branch=main)](https://travis-ci.org/swoosh/phoenix_swoosh)
+[![Inline docs](http://inch-ci.org/github/swoosh/phoenix_swoosh.svg?branch=main&style=flat)](http://inch-ci.org/github/swoosh/phoenix_swoosh)
 [![Deps Status](https://beta.hexfaktor.org/badge/all/github/swoosh/phoenix_swoosh.svg)](https://beta.hexfaktor.org/github/swoosh/phoenix_swoosh)
 
 Use Swoosh to easily send emails in your Phoenix project.
@@ -46,4 +46,4 @@ $ MIX_ENV=docs mix docs
 
 ## LICENSE
 
-See [LICENSE](https://github.com/swoosh/phoenix_swoosh/blob/master/LICENSE.txt)
+See [LICENSE](https://github.com/swoosh/phoenix_swoosh/blob/main/LICENSE.txt)

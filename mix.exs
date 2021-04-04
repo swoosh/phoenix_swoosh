@@ -1,6 +1,7 @@
 defmodule PhoenixSwoosh.Mixfile do
   use Mix.Project
 
+  @source_url "https://github.com/swoosh/phoenix_swoosh"
   @version "0.3.2"
 
   def project do
@@ -8,23 +9,14 @@ defmodule PhoenixSwoosh.Mixfile do
       app: :phoenix_swoosh,
       version: @version,
       elixir: "~> 1.8",
+      name: "Phoenix.Swoosh",
       compilers: compilers(Mix.env()),
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-
-      # Hex
-      description: description(),
       package: package(),
-
-      # Docs
-      name: "Phoenix.Swoosh",
-      docs: [
-        source_ref: "v#{@version}",
-        main: "Phoenix.Swoosh",
-        canonical: "http://hexdocs.pm/phoenix_swoosh",
-        source_url: "https://github.com/swoosh/phoenix_swoosh"
-      ]
+      docs: docs(),
+      preferred_cli_env: [docs: :docs]
     ]
   end
 
@@ -42,21 +34,36 @@ defmodule PhoenixSwoosh.Mixfile do
       {:phoenix_html, "~> 2.14"},
       {:hackney, "~> 1.9"},
       {:credo, "~> 1.0", only: [:dev, :test]},
-      {:ex_doc, "~> 0.22", only: :docs}
+      {:ex_doc, ">= 0.0.0", only: :docs, runtime: false}
     ]
-  end
-
-  defp description do
-    """
-    Use Swoosh to easily send emails in your Phoenix project.
-    """
   end
 
   defp package do
     [
+      description: "Use Swoosh to easily send emails in your Phoenix project.",
       maintainers: ["Steve Domin", "Po Chen"],
       licenses: ["MIT"],
-      links: %{"GitHub" => "https://github.com/swoosh/phoenix_swoosh"}
+      links: %{
+        "Changelog" => "https://hexdocs.pm/phoenix_swoosh/changelog.html",
+        "GitHub" => @source_url
+      }
+    ]
+  end
+
+  defp docs do
+    [
+      extras: [
+        "CHANGELOG.md",
+        "CONTRIBUTING.md",
+        "LICENSE.md": [title: "License"],
+        "README.md": [title: "Overview"]
+      ],
+      main: "readme",
+      canonical: "http://hexdocs.pm/phoenix_swoosh",
+      source_url: @source_url,
+      source_ref: "v#{@version}",
+      api_reference: false,
+      formatters: ["html"]
     ]
   end
 end

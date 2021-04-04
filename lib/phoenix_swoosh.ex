@@ -4,36 +4,6 @@ defmodule Phoenix.Swoosh do
   text body of an email by rendering templates.
 
   It has been designed to integrate with Phoenix view, template and layout system.
-
-  ## Example
-
-      # web/templates/layout/email.html.eex
-      <html>
-        <head>
-          <title><%= @email.subject %></title>
-        </head>
-        <body>
-          <%= @inner_content %>
-        </body>
-      </html>
-
-      # web/templates/email/welcome.html.eex
-      <div>
-        <h1>Welcome to Sample, <%= @username %>!</h1>
-      </div>
-
-      # web/emails/user_email.ex
-      defmodule Sample.UserEmail do
-        use Phoenix.Swoosh, view: Sample.EmailView, layout: {Sample.LayoutView, :email}
-
-        def welcome(user) do
-          new()
-          |> from("tony@stark.com")
-          |> to(user.email)
-          |> subject("Hello, Avengers!")
-          |> render_body("welcome.html", %{username: user.email})
-        end
-      end
   """
 
   import Swoosh.Email
@@ -63,13 +33,14 @@ defmodule Phoenix.Swoosh do
   @doc """
   Renders the given `template` and `assigns` based on the `email`.
 
-  Once the template is rendered the resulting string is stored on the email fields `html_body` and `text_body` depending
-  on the format of the template.
-  `.html`, `.htm`, and `.xml` are stored in `html_body`; all other extensions, (e.g. `.txt` and `.text`), in `text_body`.
+  Once the template is rendered the resulting string is stored on the email
+  fields `html_body` and `text_body` depending on the format of the template.
+  `.html`, `.htm`, and `.xml` are stored in `html_body`; all other extensions,
+  (e.g. `.txt` and `.text`), in `text_body`.
 
   ## Arguments
 
-    * `email` - the `Swoosh.Email` struct
+    * `email` - the `Swoosh.Email` struct.
 
     * `template` - may be an atom or a string. If an atom, like `:welcome`, it
       will render both the HTML and text template and stores them respectively on
@@ -80,7 +51,7 @@ defmodule Phoenix.Swoosh do
       assigns are merged and have higher order precedence than the email assigns.
       (`email.assigns`)
 
-  ## Example
+  ## Examples
 
       defmodule Sample.UserEmail do
         use Phoenix.Swoosh, view: Sample.EmailView
@@ -191,6 +162,7 @@ defmodule Phoenix.Swoosh do
       iex> email = put_layout email, :email
       iex> layout(email)
       {AppView, :email}
+
   """
   def put_layout(email, layout) do
     do_put_layout(email, layout)

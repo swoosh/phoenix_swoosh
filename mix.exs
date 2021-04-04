@@ -53,10 +53,10 @@ defmodule PhoenixSwoosh.Mixfile do
   defp docs do
     [
       extras: [
+        {:"README.md", [title: "Overview"]},
         "CHANGELOG.md",
         "CONTRIBUTING.md",
-        "LICENSE.md": [title: "License"],
-        "README.md": [title: "Overview"]
+        "LICENSE.md": [title: "License"]
       ],
       main: "readme",
       canonical: "http://hexdocs.pm/phoenix_swoosh",

@@ -1,45 +1,68 @@
 # Phoenix.Swoosh
 
+[![Elixir CI](https://github.com/swoosh/phoenix_swoosh/actions/workflows/elixir.yml/badge.svg)](https://github.com/swoosh/phoenix_swoosh/actions/workflows/elixir.yml)
+[![Module Version](https://img.shields.io/hexpm/v/phoenix_swoosh.svg)](https://hex.pm/packages/phoenix_swoosh)
+[![Hex Docs](https://img.shields.io/badge/hex-docs-lightgreen.svg)](https://hexdocs.pm/phoenix_swoosh/)
+[![Total Download](https://img.shields.io/hexpm/dt/phoenix_swoosh.svg)](https://hex.pm/packages/phoenix_swoosh)
+[![License](https://img.shields.io/hexpm/l/phoenix_swoosh.svg)](https://github.com/swoosh/phoenix_swoosh/blob/master/LICENSE)
+[![Last Updated](https://img.shields.io/github/last-commit/swoosh/phoenix_swoosh.svg)](https://github.com/swoosh/phoenix_swoosh/commits/master)
+
 Use Swoosh to easily send emails in your Phoenix project.
 
 This module provides the ability to set the HTML and/or text body of an email by rendering templates.
 
-See the [docs](http://hexdocs.pm/phoenix_swoosh) for more information.
-
 ## Installation
 
-Add phoenix_swoosh to your list of dependencies in `mix.exs`:
+Add `:phoenix_swoosh` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
-  [{:phoenix_swoosh, "~> 0.3"}]
+  [
+    {:phoenix_swoosh, "~> 0.3"}
+  ]
 end
 ```
 
-## Documentation
+## Usage
 
-Documentation is written into the library, you will find it in the source code, accessible from `iex` and of course, it
-all gets published to [hexdocs](http://hexdocs.pm/phoenix_swoosh).
+Setting up the templates:
 
-## Contributing
+```elixir
+# web/templates/layout/email.html.eex
+<html>
+  <head>
+    <title><%= @email.subject %></title>
+  </head>
+  <body>
+    <%= @inner_content %>
+  </body>
+</html>
 
-### Running tests
-
-Clone the repo and fetch its dependencies:
-
-```
-$ git clone https://github.com/swoosh/phoenix_swoosh.git
-$ cd phoenix_swoosh
-$ mix deps.get
-$ mix test
-```
-
-### Building docs
-
-```
-$ MIX_ENV=docs mix docs
+# web/templates/email/welcome.html.eex
+<div>
+  <h1>Welcome to Sample, <%= @username %>!</h1>
+</div>
 ```
 
-## LICENSE
+Passing values to templates:
 
-See [LICENSE](https://github.com/swoosh/phoenix_swoosh/blob/main/LICENSE.txt)
+```elixir
+# web/emails/user_email.ex
+defmodule Sample.UserEmail do
+  use Phoenix.Swoosh, view: Sample.EmailView, layout: {Sample.LayoutView, :email}
+
+  def welcome(user) do
+    new()
+    |> from("tony@stark.com")
+    |> to(user.email)
+    |> subject("Hello, Avengers!")
+    |> render_body("welcome.html", %{username: user.email})
+  end
+end
+```
+
+## Copyright and License
+
+Copyright (c) 2016 Swoosh contributors
+
+Released under the MIT License, which can be found in [LICENSE.md](./LICENSE.md).

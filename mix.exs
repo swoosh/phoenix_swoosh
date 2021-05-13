@@ -8,7 +8,7 @@ defmodule PhoenixSwoosh.Mixfile do
     [
       app: :phoenix_swoosh,
       version: @version,
-      elixir: "~> 1.8",
+      elixir: "~> 1.9",
       name: "Phoenix.Swoosh",
       compilers: compilers(Mix.env()),
       build_embedded: Mix.env() == :prod,

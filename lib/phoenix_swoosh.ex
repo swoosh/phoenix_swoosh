@@ -266,8 +266,7 @@ defmodule Phoenix.Swoosh do
         given
       else
         swoosh_module
-        |> Atom.to_string()
-        |> String.split(".")
+        |> Module.split()
         |> Enum.drop(-1)
         |> Enum.take(2)
         |> Module.concat()

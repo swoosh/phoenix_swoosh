@@ -289,6 +289,14 @@ defmodule Phoenix.SwooshTest do
            email
   end
 
+  test "should raise if no view is set" do
+    assert_raise ArgumentError, fn ->
+      defmodule ErrorEmail do
+        use Phoenix.Swoosh, put_default_views: false
+      end
+    end
+  end
+
   test "body formats are set according to template file extension", %{email: email} do
     assert email |> render_body("format_html.html", %{}) |> Map.fetch!(:html_body) =~
              "This is an HTML template"

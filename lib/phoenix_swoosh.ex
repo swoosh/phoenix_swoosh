@@ -33,7 +33,12 @@ defmodule Phoenix.Swoosh do
     end
   end
 
-  defmacro __before_compile__(_env) do
+  defmacro __before_compile__(env) do
+    unless Module.get_attribute(env.module, :view) do
+      raise ArgumentError, "no view was set, " <>
+                           "you can set one with `use Phoenix.Swoosh, view: MyApp.EmailView`"
+    end
+
     quote do
       def render_body(email, template, assigns \\ %{}) do
         email

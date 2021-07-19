@@ -29,6 +29,16 @@ defmodule Phoenix.Swoosh do
         @view Phoenix.Swoosh.__view__(__MODULE__)
       end
 
+      case Keyword.get(opts, :view, nil) do
+        nil -> :ok
+        view -> @view view
+      end
+
+      case Keyword.get(opts, :layout, nil) do
+        nil -> :ok
+        layout -> @layout layout
+      end
+
       @before_compile Phoenix.Swoosh
     end
   end

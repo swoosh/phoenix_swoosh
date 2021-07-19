@@ -4,23 +4,37 @@ defmodule Phoenix.Swoosh do
   text body of an email by rendering templates.
 
   It has been designed to integrate with Phoenix view, template and layout system.
+
+  ## Options
+
+  When used, the email supports the following options:
+
+    * `:namespace` - sets the namespace to properly inflect
+      the layout view. By default it uses the base alias
+      in your email name
+
+    * `:put_default_views` - controls whether the default view
+      and layout should be set or not
   """
 
   import Swoosh.Email
 
   defmacro __using__(opts) do
-    unless view = Keyword.get(opts, :view) do
-      raise ArgumentError, "no view was set, " <>
-                           "you can set one with `use Phoenix.Swoosh, view: MyApp.EmailView`"
-    end
-    layout = Keyword.get(opts, :layout)
-    quote bind_quoted: [view: view, layout: layout] do
-      import Swoosh.Email
+    quote bind_quoted: [opts: opts] do
       import Phoenix.Swoosh, except: [render_body: 3]
+      import Swoosh.Email
 
-      @view view
-      @layout layout || false
+      if Keyword.get(opts, :put_default_views, true) do
+        @layout {Phoenix.Swoosh.__layout__(__MODULE__, opts), :email}
+        @view Phoenix.Swoosh.__view__(__MODULE__)
+      end
 
+      @before_compile Phoenix.Swoosh
+    end
+  end
+
+  defmacro __before_compile__(_env) do
+    quote do
       def render_body(email, template, assigns \\ %{}) do
         email
         |> put_new_layout(@layout)
@@ -236,4 +250,28 @@ defmodule Phoenix.Swoosh do
 
   defp template_name(name, format) when is_atom(name), do: Atom.to_string(name) <> "." <> format
   defp template_name(name, _format) when is_binary(name), do: name
+
+  @doc false
+  def __view__(swoosh_module) do
+    swoosh_module
+    |> Phoenix.Naming.unsuffix("Email")
+    |> Kernel.<>("View")
+    |> String.to_atom()
+  end
+
+  @doc false
+  def __layout__(swoosh_module, opts) do
+    namespace =
+      if given = Keyword.get(opts, :namespace) do
+        given
+      else
+        swoosh_module
+        |> Atom.to_string()
+        |> String.split(".")
+        |> Enum.drop(-1)
+        |> Enum.take(2)
+        |> Module.concat()
+      end
+    Module.concat(namespace, "LayoutView")
+  end
 end

@@ -14,7 +14,10 @@ defmodule Phoenix.SwooshTest do
   end
 
   defmodule TestEmail do
-    use Phoenix.Swoosh, view: EmailView
+    use Phoenix.Swoosh
+
+    @view EmailView
+    @layout false
 
     def welcome_html(), do: email() |> render_body("welcome.html", %{})
     def welcome_text(), do: email() |> render_body("welcome.text", %{})
@@ -86,7 +89,10 @@ defmodule Phoenix.SwooshTest do
   end
 
   defmodule TestEmailLayout do
-    use Phoenix.Swoosh, view: EmailView, layout: {LayoutView, :email}
+    use Phoenix.Swoosh
+
+    @view EmailView
+    @layout {LayoutView, :email}
 
     def welcome() do
       %Email{}
@@ -281,14 +287,6 @@ defmodule Phoenix.SwooshTest do
 
     assert %Email{html_body: "<html><h1>Welcome, Avengers!</h1>\n</html>\n"} =
            email
-  end
-
-  test "should raise if no view is set" do
-    assert_raise ArgumentError, fn ->
-      defmodule ErrorEmail do
-        use Phoenix.Swoosh
-      end
-    end
   end
 
   test "body formats are set according to template file extension", %{email: email} do

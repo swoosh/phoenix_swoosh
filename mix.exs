@@ -10,7 +10,6 @@ defmodule PhoenixSwoosh.Mixfile do
       version: @version,
       elixir: "~> 1.9",
       name: "Phoenix.Swoosh",
-      compilers: compilers(Mix.env()),
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -20,9 +19,6 @@ defmodule PhoenixSwoosh.Mixfile do
     ]
   end
 
-  defp compilers(:test), do: [:phoenix] ++ Mix.compilers()
-  defp compilers(_), do: Mix.compilers()
-
   def application do
     [extra_applications: [:logger]]
   end
@@ -30,9 +26,10 @@ defmodule PhoenixSwoosh.Mixfile do
   defp deps do
     [
       {:swoosh, "~> 1.0"},
-      {:phoenix, "~> 1.4"},
-      {:phoenix_html, "~> 2.14"},
       {:hackney, "~> 1.9"},
+      {:phoenix_view, "~> 1.0"},
+      {:phoenix_html, "~> 2.14 or ~> 3.0", optional: true},
+      # {:phoenix, "~> 1.6", optional: true},
       {:credo, "~> 1.0", only: [:dev, :test]},
       {:ex_doc, ">= 0.0.0", only: :docs, runtime: false}
     ]

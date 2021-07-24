@@ -100,6 +100,31 @@ defmodule Phoenix.SwooshTest do
     end
   end
 
+  defmodule TestViewIncludedNotifier do
+    use Phoenix.Swoosh,
+      template_root: "test/fixtures/templates",
+      template_namespace: Phoenix.SwooshTest
+
+    import Swoosh.Email
+
+    def welcome_assigns do
+      %Email{}
+      |> from("tony@stark.com")
+      |> to("steve@rogers.com")
+      |> subject("Welcome, Avengers!")
+      |> render_body(:welcome_assigns, %{name: "Tony"})
+    end
+
+    def welcome_layout do
+      %Email{}
+      |> from("tony@stark.com")
+      |> to("steve@rogers.com")
+      |> subject("Welcome, Avengers!")
+      |> put_layout({LayoutView, :email})
+      |> render_body(:welcome_assigns, %{name: "Avengers"})
+    end
+  end
+
   setup_all do
     email =
       %Email{}
@@ -283,6 +308,20 @@ defmodule Phoenix.SwooshTest do
       |> render_body("welcome.html", %{})
 
     assert %Email{html_body: "<html><h1>Welcome, Avengers!</h1>\n</html>\n"} = email
+  end
+
+  describe "view included" do
+    test "render both html and text body with assigns" do
+      assert %Email{html_body: "<h1>Welcome, Tony!</h1>\n", text_body: "Welcome, Tony!\n"} =
+               TestViewIncludedNotifier.welcome_assigns()
+    end
+
+    test "render both html and text body with layout" do
+      assert %Email{
+               html_body: "<html><h1>Welcome, Avengers!</h1>\n</html>\n",
+               text_body: "TEXT: Welcome, Avengers!\n\n"
+             } = TestViewIncludedNotifier.welcome_layout()
+    end
   end
 
   test "should raise if no view is set" do

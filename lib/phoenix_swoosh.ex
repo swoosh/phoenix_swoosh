@@ -9,16 +9,42 @@ defmodule Phoenix.Swoosh do
   import Swoosh.Email
 
   defmacro __using__(opts) do
-    unless view = Keyword.get(opts, :view) do
-      raise ArgumentError, "no view was set, " <>
-                           "you can set one with `use Phoenix.Swoosh, view: MyApp.EmailView`"
-    end
+    view = Keyword.get(opts, :view)
     layout = Keyword.get(opts, :layout)
-    quote bind_quoted: [view: view, layout: layout] do
+    template_root = Keyword.get(opts, :template_root)
+    template_path = Keyword.get(opts, :template_path)
+    template_namespace = Keyword.get(opts, :template_namespace)
+
+    unless view || template_root do
+      raise ArgumentError,
+            """
+            no view or template_root was set, you can set one with
+
+                use Phoenix.Swoosh, view: MyApp.EmailView
+
+            or
+
+                use Phoenix.Swoosh, template_root: "./templates"
+            """
+    end
+
+    quote bind_quoted: [
+            view: view,
+            layout: layout,
+            template_root: template_root,
+            template_path: template_path,
+            template_namespace: template_namespace
+          ] do
       import Swoosh.Email
       import Phoenix.Swoosh, except: [render_body: 3]
 
-      @view view
+      if template_root do
+        use Phoenix.View, root: template_root, path: template_path, namespace: template_namespace
+        @view __MODULE__
+      else
+        @view view
+      end
+
       @layout layout || false
 
       def render_body(email, template, assigns \\ %{}) do
@@ -112,21 +138,24 @@ defmodule Phoenix.Swoosh do
     case Path.extname(template) do
       "." <> format ->
         do_render_body(email, template, format, assigns)
+
       "" ->
-        raise "cannot render template #{inspect template} without format. Use an atom if you " <>
-              "want to set both the html and text body."
+        raise "cannot render template #{inspect(template)} without format. Use an atom if you " <>
+                "want to set both the html and text body."
     end
   end
 
   defp do_render_body(email, template, format, assigns) do
     assigns = Enum.into(assigns, %{})
+
     email =
       email
       |> put_private(:phoenix_template, template)
       |> prepare_assigns(assigns, format)
 
-    view = Map.get(email.private, :phoenix_view) ||
-            raise "a view module was not specified, set one with put_view/2"
+    view =
+      Map.get(email.private, :phoenix_view) ||
+        raise "a view module was not specified, set one with put_view/2"
 
     content = Phoenix.View.render_to_string(view, template, Map.put(email.assigns, :email, email))
     Map.put(email, body_key(format), content)
@@ -177,12 +206,15 @@ defmodule Phoenix.Swoosh do
   end
 
   defp do_put_layout(email, layout) when is_binary(layout) or is_atom(layout) do
-    update_in email.private, fn private ->
+    update_in(email.private, fn private ->
       case Map.get(private, :phoenix_layout, false) do
-        {mod, _} -> Map.put(private, :phoenix_layout, {mod, layout})
-        false    -> raise "cannot use put_layout/2 with atom/binary when layout is false, use a tuple instead"
+        {mod, _} ->
+          Map.put(private, :phoenix_layout, {mod, layout})
+
+        false ->
+          raise "cannot use put_layout/2 with atom/binary when layout is false, use a tuple instead"
       end
-    end
+    end)
   end
 
   @doc """
@@ -190,7 +222,7 @@ defmodule Phoenix.Swoosh do
   """
   def put_new_layout(email, layout)
       when (is_tuple(layout) and tuple_size(layout) == 2) or layout == false do
-    update_in email.private, &Map.put_new(&1, :phoenix_layout, layout)
+    update_in(email.private, &Map.put_new(&1, :phoenix_layout, layout))
   end
 
   @doc """
@@ -209,7 +241,7 @@ defmodule Phoenix.Swoosh do
   Stores the view for rendering if one was not stored yet.
   """
   def put_new_view(email, module) do
-    update_in email.private, &Map.put_new(&1, :phoenix_view, module)
+    update_in(email.private, &Map.put_new(&1, :phoenix_view, module))
   end
 
   defp prepare_assigns(email, assigns, format) do
@@ -219,8 +251,10 @@ defmodule Phoenix.Swoosh do
         false -> false
       end
 
-    update_in email.assigns,
-              & &1 |> Map.merge(assigns) |> Map.put(:layout, layout)
+    update_in(
+      email.assigns,
+      &(&1 |> Map.merge(assigns) |> Map.put(:layout, layout))
+    )
   end
 
   defp layout(email, assigns, format) do

@@ -7,7 +7,7 @@
 [![License](https://img.shields.io/hexpm/l/phoenix_swoosh.svg)](https://github.com/swoosh/phoenix_swoosh/blob/master/LICENSE)
 [![Last Updated](https://img.shields.io/github/last-commit/swoosh/phoenix_swoosh.svg)](https://github.com/swoosh/phoenix_swoosh/commits/master)
 
-Use Swoosh to easily send emails in your Phoenix project.
+`Phoenix.View` + `Swoosh`.
 
 This module provides the ability to set the HTML and/or text body of an email by rendering templates.
 
@@ -18,38 +18,36 @@ Add `:phoenix_swoosh` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:phoenix_swoosh, "~> 0.3"}
+    {:phoenix_swoosh, "~> 1.0"}
   ]
 end
 ```
 
 ## Usage
 
+### 1. Classic setup
+
 Setting up the templates:
 
 ```eex
-# web/templates/layout/email.html.eex
-<html>
-  <head>
-    <title><%= @email.subject %></title>
-  </head>
-  <body>
-    <%= @inner_content %>
-  </body>
-</html>
-
-# web/templates/email/welcome.html.eex
+# path_to/templates/user_notifier/welcome.html.eex
 <div>
   <h1>Welcome to Sample, <%= @name %>!</h1>
 </div>
 ```
 
+```elixir
+defmodule Sample.UserNotifierView do
+  use Phoenix.View, root: "path_to/templates"
+end
+```
+
 Passing values to templates:
 
 ```elixir
-# web/emails/user_email.ex
-defmodule Sample.UserEmail do
-  use Phoenix.Swoosh, view: Sample.EmailView, layout: {Sample.LayoutView, :email}
+# path_to/notifiers/user_notifier.ex
+defmodule Sample.UserNotifier do
+  use Phoenix.Swoosh, view: Sample.UserNotifierView
 
   def welcome(user) do
     new()
@@ -60,6 +58,62 @@ defmodule Sample.UserEmail do
   end
 end
 ```
+
+Maybe with a layout:
+
+```eex
+# path_to/templates/layout/email.html.eex
+<html>
+  <head>
+    <title><%= @email.subject %></title>
+  </head>
+  <body>
+    <%= @inner_content %>
+  </body>
+</html>
+```
+
+```elixir
+defmodule Sample.LayoutView do
+  use Phoenix.View, root: "path_to/templates"
+end
+```
+
+```elixir
+# path_to/notifiers/user_notifier.ex
+defmodule Sample.UserNotifier do
+  use Phoenix.Swoosh, view: Sample.NotifierView, layout: {Sample.LayoutView, :email}
+
+  # ... same welcome ...
+end
+```
+
+Layout can also be added/changed dynamically with `put_new_layout/2` and `put_layout/2`
+
+### 2. Standalone setup
+
+```eex
+# path_to/templates/user_notifier/welcome.html.eex
+<div>
+  <h1>Welcome to Sample, <%= @name %>!</h1>
+</div>
+```
+
+```elixir
+# path_to/notifiers/user_notifier.ex
+defmodule Sample.UserNotifier do
+  use Phoenix.Swoosh, template_root: "path_to/templates", template_path: "user_notifier"
+
+  # ... same welcome ...
+end
+```
+
+In this setup, the notifier module itself serves as the view module
+
+`template_root`, `template_path` and `template_namespace`
+will be passed to `Phoenix.View` as `root`, `path` and `namespace`.
+
+Layout can be setup the same way as classic setup.
 
 ## Copyright and License
 

@@ -40,7 +40,7 @@ Setting up the templates:
 
 # web/templates/email/welcome.html.eex
 <div>
-  <h1>Welcome to Sample, <%= @username %>!</h1>
+  <h1>Welcome to Sample, <%= @name %>!</h1>
 </div>
 ```
 
@@ -56,7 +56,7 @@ defmodule Sample.UserEmail do
     |> from("tony@stark.com")
     |> to(user.email)
     |> subject("Hello, Avengers!")
-    |> render_body("welcome.html", %{username: user.email})
+    |> render_body("welcome.html", %{name: name})
   end
 end
 ```

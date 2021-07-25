@@ -27,7 +27,7 @@ end
 
 Setting up the templates:
 
-```elixir
+```eex
 # web/templates/layout/email.html.eex
 <html>
   <head>

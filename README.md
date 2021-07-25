@@ -63,6 +63,6 @@ end
 
 ## Copyright and License
 
-Copyright (c) 2016 Swoosh contributors
+Copyright (c) 2021 Swoosh contributors
 
 Released under the MIT License, which can be found in [LICENSE.md](./LICENSE.md).

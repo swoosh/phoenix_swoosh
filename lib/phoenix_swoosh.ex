@@ -47,7 +47,7 @@ defmodule Phoenix.Swoosh do
       the email. If the template is a string it must contain the extension too,
       like `welcome.html`.
 
-    * `assigns` - a dictionnary with the assigns to be used in the view. Those
+    * `assigns` - a dictionary with the assigns to be used in the view. Those
       assigns are merged and have higher order precedence than the email assigns.
       (`email.assigns`)
 

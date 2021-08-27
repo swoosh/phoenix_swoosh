@@ -32,7 +32,7 @@ You probably also want to install [`finch`](https://hex.pm/packages/finch),
 if you are using a provider that `Swoosh` talks to via their HTTP API.
 
 Or [`:gen_smtp`](https://hex.pm/packages/gen_smtp) if you are working with a provider
-that only work through SMTP.
+that only works through SMTP.
 
 See `Swoosh` for more details.
 

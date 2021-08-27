@@ -18,7 +18,11 @@ Add `:phoenix_swoosh` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:phoenix_swoosh, "~> 1.0"}
+    {:phoenix_swoosh, "~> 1.0"},
+
+    # without phoenix_html, phoenix_swoosh only works with plain text templates
+    # if you want to use HTML templates
+    # {:phoenix_html, "~> 3.0"},
   ]
 end
 ```

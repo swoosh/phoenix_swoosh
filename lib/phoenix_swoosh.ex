@@ -3,7 +3,8 @@ defmodule Phoenix.Swoosh do
   The main feature provided by this module is the ability to set the HTML and/or
   text body of an email by rendering templates.
 
-  It has been designed to integrate with Phoenix view, template and layout system.
+  It utilizes `Phoenix.View` and can work very well both standalone
+  and in apps using `Phoenix` framework.
   """
 
   import Swoosh.Email

@@ -2,13 +2,13 @@ defmodule PhoenixSwoosh.Mixfile do
   use Mix.Project
 
   @source_url "https://github.com/swoosh/phoenix_swoosh"
-  @version "0.3.3"
+  @version "1.0.0-rc.0"
 
   def project do
     [
       app: :phoenix_swoosh,
       version: @version,
-      elixir: "~> 1.9",
+      elixir: "~> 1.10",
       name: "Phoenix.Swoosh",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
@@ -25,11 +25,10 @@ defmodule PhoenixSwoosh.Mixfile do
 
   defp deps do
     [
-      {:swoosh, "~> 1.0"},
-      {:hackney, "~> 1.9"},
+      {:swoosh, "~> 1.5"},
       {:phoenix_view, "~> 1.0"},
-      {:phoenix_html, "~> 2.14 or ~> 3.0", optional: true},
-      # {:phoenix, "~> 1.6", optional: true},
+      {:phoenix_html, "~> 3.0", optional: true},
+      {:phoenix, "~> 1.6.0-rc or ~> 1.6", optional: true},
       {:credo, "~> 1.0", only: [:dev, :test]},
       {:ex_doc, ">= 0.0.0", only: :docs, runtime: false}
     ]

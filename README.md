@@ -23,6 +23,15 @@ def deps do
 end
 ```
 
+You probably also want to install [`finch`](https://hex.pm/packages/finch),
+[`hackney`](https://hex.pm/packages/hackney) or an HTTP client of your own choice,
+if you are using a provider that `Swoosh` talks to via their HTTP API.
+
+Or [`:gen_smtp`](https://hex.pm/packages/gen_smtp) if you are working with a provider
+that only work through SMTP.
+
+See `Swoosh` for more details.
+
 ## Usage
 
 ### 1. Classic setup
@@ -37,6 +46,7 @@ Setting up the templates:
 ```
 
 ```elixir
+# path_to/views/user_notifier_view.ex
 defmodule Sample.UserNotifierView do
   use Phoenix.View, root: "path_to/templates"
 end
@@ -82,7 +92,9 @@ end
 ```elixir
 # path_to/notifiers/user_notifier.ex
 defmodule Sample.UserNotifier do
-  use Phoenix.Swoosh, view: Sample.NotifierView, layout: {Sample.LayoutView, :email}
+  use Phoenix.Swoosh,
+    view: Sample.NotifierView,
+    layout: {Sample.LayoutView, :email}
 
   # ... same welcome ...
 end
@@ -102,7 +114,9 @@ Layout can also be added/changed dynamically with `put_new_layout/2` and `put_la
 ```elixir
 # path_to/notifiers/user_notifier.ex
 defmodule Sample.UserNotifier do
-  use Phoenix.Swoosh, template_root: "path_to/templates", template_path: "user_notifier"
+  use Phoenix.Swoosh,
+    template_root: "path_to/templates",
+    template_path: "user_notifier"
 
   # ... same welcome ...
 end

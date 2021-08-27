@@ -5,60 +5,46 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v0.3.3 - 2021-04-04
-
-### Changed
-
-- Misc doc changes @kianmeng (#186)
-
-## v0.3.2 - 2020-10-13
+## 1.0.0 - Unreleased
 
 ### Added
 
-- Set correct body field depending on template format @wmnnd (#154)
+The setup within a `Phoenix` is now referred to as the
+[classic setup](https://github.com/swoosh/phoenix_swoosh#1-classic-setup).
 
-## v0.3.1 - 2020-10-13
+1.0 adds the ability for the lib to be used outside `Phoenix` apps.
 
-### Changes
+A new setup that doesn't involve a sparate view module is added and is called the standalone setup.
+Both setups can work outsite `Phoenix` apps thanks to the recently extracted `Phoenix.View`.
 
-- Fix warnings on Elixir v1.11 about missing apps @josevalim (#152)
+#### Standalone setup
 
-## v0.3.0 - 2020-07-14
+```eex
+# path_to/templates/user_notifier/welcome.html.eex
+<div>
+  <h1>Welcome to Sample, <%= @name %>!</h1>
+</div>
+```
 
-### Changed
+```elixir
+# path_to/notifiers/user_notifier.ex
+defmodule Sample.UserNotifier do
+  use Phoenix.Swoosh,
+    template_root: "path_to/templates",
+    template_path: "user_notifier"
 
-- Bump Swoosh to 1.0
+  # ... same welcome ...
+end
+```
 
-## v0.2.0 - 2017-02-13
+In this setup, the notifier module itself serves as the view module
 
-### Changed
+`template_root`, `template_path` and `template_namespace`
+will be passed to `Phoenix.View` as `root`, `path` and `namespace`.
 
-- Removed usage of deprecated `Dict`.
+Layout can be setup the same way as
+[classic setup](https://github.com/swoosh/phoenix_swoosh#1-classic-setup).
 
-## v0.1.3 - 2016-06-26
+---
 
-### Added
-
-- Add swoosh to the list of applications in `mix.exs`.
-
-### Changed
-
-- Bump phoenix to 1.2.
-- Bump phoenix_html to 2.6.
-- Bump swoosh to 0.4.
-
-## v0.1.2 - 2016-06-12
-
-### Added
-
-- Add support for Phoenix 1.2 release candidate.
-
-## v0.1.1 - 2016-04-17
-
-### Fixed
-
-- Add default assigns value to `render_body/3` inside the `use` macro
-
-## v0.1.0 - 2016-03-22
-
-- Initial version
+[Changelog prior to 1.0 can be found on 0.3.x branch](https://github.com/swoosh/phoenix_swoosh/blob/0.3.x/CHANGELOG.md)

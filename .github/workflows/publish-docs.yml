@@ -1,0 +1,34 @@
+name: Publish Docs
+
+on: workflow_dispatch
+
+jobs:
+  publish:
+    env:
+      MIX_ENV: docs
+      HEX_API_KEY: ${{ secrets.HEX_API_KEY }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup BEAM
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: 1.12.x
+          otp-version: 24.x
+
+      - name: Restore dependencies cache
+        uses: actions/cache@v2
+        id: cache-elixir-deps
+        with:
+          path: |
+            deps
+            _build
+          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+
+      - name: Install Dependencies
+        if: steps.cache-elixir-deps.outputs.cache-hit != 'true'
+        run: mix do deps.get, deps.compile, compile
+
+      - name: Build and publish
+        run: mix hex.publish docs --yes

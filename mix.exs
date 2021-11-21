@@ -32,7 +32,7 @@ defmodule PhoenixSwoosh.Mixfile do
       {:finch, "~> 0.8", optional: true},
       {:phoenix, "~> 1.6", optional: true},
       {:credo, "~> 1.0", only: [:dev, :test]},
-      {:ex_doc, ">= 0.0.0", only: :docs, runtime: false}
+      {:ex_doc, "~> 0.26", only: :docs, runtime: false}
     ]
   end
 

@@ -11,7 +11,7 @@ defmodule Phoenix.Swoosh do
 
   defmacro __using__(opts) do
     view = Keyword.get(opts, :view)
-    layout = Keyword.get(opts, :layout)
+    layout = Keyword.get(opts, :layout, false)
     template_root = Keyword.get(opts, :template_root)
     template_path = Keyword.get(opts, :template_path)
     template_namespace = Keyword.get(opts, :template_namespace)
@@ -29,29 +29,21 @@ defmodule Phoenix.Swoosh do
             """
     end
 
-    quote bind_quoted: [
-            view: view,
-            layout: layout,
-            template_root: template_root,
-            template_path: template_path,
-            template_namespace: template_namespace
-          ] do
+    quote do
       import Swoosh.Email
       import Phoenix.Swoosh, except: [render_body: 3]
 
-      if template_root do
-        use Phoenix.View, root: template_root, path: template_path, namespace: template_namespace
-        @view __MODULE__
-      else
-        @view view
+      if unquote(template_root) do
+        use Phoenix.View,
+          root: unquote(template_root),
+          path: unquote(template_path),
+          namespace: unquote(template_namespace)
       end
-
-      @layout layout || false
 
       def render_body(email, template, assigns \\ %{}) do
         email
-        |> put_new_layout(@layout)
-        |> put_new_view(@view)
+        |> put_new_layout(unquote(layout))
+        |> put_new_view(if(unquote(template_root), do: __MODULE__, else: unquote(view)))
         |> Phoenix.Swoosh.render_body(template, assigns)
       end
     end

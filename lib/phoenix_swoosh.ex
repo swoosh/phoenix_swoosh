@@ -29,6 +29,8 @@ defmodule Phoenix.Swoosh do
             """
     end
 
+    view_module = if template_root, do: quote(do: __MODULE__), else: view
+
     quote do
       import Swoosh.Email
       import Phoenix.Swoosh, except: [render_body: 3]
@@ -43,7 +45,7 @@ defmodule Phoenix.Swoosh do
       def render_body(email, template, assigns \\ %{}) do
         email
         |> put_new_layout(unquote(layout))
-        |> put_new_view(if(unquote(template_root), do: __MODULE__, else: unquote(view)))
+        |> put_new_view(unquote(view_module))
         |> Phoenix.Swoosh.render_body(template, assigns)
       end
     end

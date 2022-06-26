@@ -78,7 +78,7 @@ defmodule Phoenix.Swoosh do
         use Phoenix.Swoosh, view: Sample.EmailView
 
         def welcome(user) do
-          %Email{}
+          new()
           |> from("tony@stark.com")
           |> to(user.email)
           |> subject("Hello, Avengers!")
@@ -94,7 +94,7 @@ defmodule Phoenix.Swoosh do
   do so you can pass the template name as an atom (without the extension):
 
       def welcome(user) do
-        %Email{}
+        new()
         |> from("tony@stark.com")
         |> to(user.email)
         |> subject("Hello, Avengers!")
@@ -110,7 +110,7 @@ defmodule Phoenix.Swoosh do
         use Phoenix.Swoosh, view: Sample.EmailView, layout: {Sample.LayoutView, :email}
 
         def welcome(user) do
-          %Email{}
+          new()
           |> from("tony@stark.com")
           |> to(user.email)
           |> subject("Hello, Avengers!")

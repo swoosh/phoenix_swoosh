@@ -11,8 +11,11 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        elixir: ['1.12', '1.11', '1.10']
+        elixir: ['1.13', '1.12', '1.11', '1.10']
         otp: ['24.x', '23.x', '22.x']
+        include:
+          - elixir: '1.13'
+            otp: '25.x'
         exclude:
           - elixir: '1.10'
             otp: '24.x'
@@ -31,7 +34,7 @@ jobs:
           path: |
             deps
             _build
-          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}-${{ matrix.otp }}
           restore-keys: ${{ runner.os }}-mix-
 
       - name: Install Dependencies

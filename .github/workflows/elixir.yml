@@ -9,6 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     strategy:
       matrix:
         elixir: ['1.13', '1.12', '1.11', '1.10']
@@ -24,6 +25,7 @@ jobs:
             otp: '24.x'
           - elixir: '1.13'
             otp: '25.x'
+
     steps:
       - uses: actions/checkout@v2
 
@@ -35,6 +37,7 @@ jobs:
 
       - name: Restore dependencies cache
         uses: actions/cache@v2
+        id: cache-elixir-deps
         with:
           path: |
             deps
@@ -43,7 +46,11 @@ jobs:
           restore-keys: ${{ runner.os }}-mix-${{ matrix.otp }}-
 
       - name: Install Dependencies
-        run: mix deps.get
+        if: steps.cache-elixir-deps.outputs.cache-hit != 'true'
+        run: MIX_ENV=test mix do deps.get, deps.compile, compile
+
+      - run: mix format --check-formatted
+        if: matrix.lint
 
       - name: Run Tests
         run: mix test

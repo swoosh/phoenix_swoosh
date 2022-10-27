@@ -2,13 +2,13 @@ defmodule PhoenixSwoosh.Mixfile do
   use Mix.Project
 
   @source_url "https://github.com/swoosh/phoenix_swoosh"
-  @version "1.0.1"
+  @version "1.1.0"
 
   def project do
     [
       app: :phoenix_swoosh,
       version: @version,
-      elixir: "~> 1.10",
+      elixir: "~> 1.11",
       name: "Phoenix.Swoosh",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,

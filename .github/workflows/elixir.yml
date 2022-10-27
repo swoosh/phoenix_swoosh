@@ -34,13 +34,13 @@ jobs:
           otp-version: ${{ matrix.otp }}
 
       - name: Restore dependencies cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: cache-elixir-deps
         with:
           path: |
             deps
             _build
-          key: ${{ runner.os }}-mix-${{ matrix.otp }}-${{ hashFiles('**/mix.lock') }}-3
+          key: ${{ runner.os }}-mix-${{ matrix.otp }}-${{ hashFiles('**/mix.lock') }}-4
 
       - name: Install Dependencies
         if: steps.cache-elixir-deps.outputs.cache-hit != 'true'

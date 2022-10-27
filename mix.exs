@@ -26,7 +26,7 @@ defmodule PhoenixSwoosh.Mixfile do
   defp deps do
     [
       {:swoosh, "~> 1.5"},
-      {:phoenix_view, "~> 1.0"},
+      {:phoenix_view, "~> 1.0 or ~> 2.0"},
       {:phoenix_html, "~> 3.0", optional: true},
       {:hackney, "~> 1.10", optional: true},
       {:finch, "~> 0.8", optional: true},

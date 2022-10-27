@@ -29,18 +29,7 @@ jobs:
           elixir-version: ${{ matrix.elixir }}
           otp-version: ${{ matrix.otp }}
 
-      - name: Restore dependencies cache
-        uses: actions/cache@v3
-        id: cache-elixir-deps
-        with:
-          path: |
-            deps
-            _build
-          key: ${{ runner.os }}-mix-${{ matrix.otp }}-${{ hashFiles('**/mix.lock') }}
-          restore-keys: ${{ runner.os }}-mix-${{ matrix.otp }}-
-
       - name: Install Dependencies
-        if: steps.cache-elixir-deps.outputs.cache-hit != 'true'
         run: MIX_ENV=test mix do deps.get, deps.compile, compile
 
       - run: mix format --check-formatted

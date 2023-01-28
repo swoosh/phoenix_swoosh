@@ -15,6 +15,7 @@ defmodule Phoenix.Swoosh do
     template_root = Keyword.get(opts, :template_root)
     template_path = Keyword.get(opts, :template_path)
     template_namespace = Keyword.get(opts, :template_namespace)
+    formats = Keyword.get(opts, :formats, quote(do: default_formats()))
 
     unless view || template_root do
       raise ArgumentError,
@@ -44,6 +45,7 @@ defmodule Phoenix.Swoosh do
 
       def render_body(email, template, assigns \\ %{}) do
         email
+        |> put_new_formats(unquote(formats))
         |> put_new_layout(unquote(layout))
         |> put_new_view(unquote(view_module))
         |> Phoenix.Swoosh.render_body(template, assigns)
@@ -124,14 +126,22 @@ defmodule Phoenix.Swoosh do
   the view.
   """
   def render_body(email, template, assigns) when is_atom(template) do
+    formats = formats(email)
+
     email
-    |> do_render_body(template_name(template, "html"), "html", assigns)
-    |> do_render_body(template_name(template, "text"), "text", assigns)
+    |> do_render_body(template_name(template, formats["html"]), "html", assigns)
+    |> do_render_body(template_name(template, formats["text"]), "text", assigns)
   end
 
   def render_body(email, template, assigns) when is_binary(template) do
     case Path.extname(template) do
-      "." <> format ->
+      "." <> ext ->
+        format =
+          case formats(email) |> Map.to_list() |> List.keyfind(ext, 1) do
+            {format, _} -> format
+            _ -> ext
+          end
+
         do_render_body(email, template, format, assigns)
 
       "" ->
@@ -158,6 +168,20 @@ defmodule Phoenix.Swoosh do
 
   defp body_key(format) when format in ["html", "htm", "xml"], do: :html_body
   defp body_key(_other), do: :text_body
+
+  @doc """
+  Stores the formats for rendering.
+  """
+  def put_formats(email, formats) do
+    put_private(email, :phoenix_formats, formats)
+  end
+
+  @doc """
+  Stores the formats for rendering if none was stored yet.
+  """
+  def put_new_formats(email, formats) do
+    update_in(email.private, &Map.put_new(&1, :phoenix_formats, formats))
+  end
 
   @doc """
   Stores the layout for rendering.
@@ -240,9 +264,11 @@ defmodule Phoenix.Swoosh do
   end
 
   defp prepare_assigns(email, assigns, format) do
+    formats = formats(email)
+
     layout =
       case layout(email, assigns, format) do
-        {mod, layout} -> {mod, template_name(layout, format)}
+        {mod, layout} -> {mod, template_name(layout, formats[format])}
         false -> false
       end
 
@@ -252,8 +278,16 @@ defmodule Phoenix.Swoosh do
     )
   end
 
+  defp formats(email) do
+    email.private |> Map.get(:phoenix_formats, default_formats())
+  end
+
+  def default_formats, do: %{"html" => "html", "text" => "text"}
+
   defp layout(email, assigns, format) do
-    if format in ["html", "text"] do
+    format_names = formats(email) |> Map.keys()
+
+    if format in format_names do
       case Map.fetch(assigns, :layout) do
         {:ok, layout} -> layout
         :error -> layout(email)

@@ -19,32 +19,14 @@ defmodule Phoenix.SwooshTest do
     def welcome_html(), do: email() |> render_body("welcome.html", %{})
     def welcome_text(), do: email() |> render_body("welcome.text", %{})
 
-    def welcome_custom() do
-      email()
-      |> put_formats(%{"html" => "custom"})
-      |> render_body("welcome.custom", %{})
-    end
-
     def welcome_html_assigns(),
       do: email() |> render_body("welcome_assigns.html", %{name: "Tony"})
 
     def welcome_text_assigns(),
       do: email() |> render_body("welcome_assigns.text", %{name: "Tony"})
 
-    def welcome_custom_assigns() do
-      email()
-      |> put_formats(%{"html" => "custom"})
-      |> render_body("welcome_assigns.custom", %{name: "Tony"})
-    end
-
     def welcome_html_without_assigns(), do: email() |> render_body("welcome.html")
     def welcome_text_without_assigns(), do: email() |> render_body("welcome.text")
-
-    def welcome_custom_without_assigns() do
-      email()
-      |> put_formats(%{"html" => "custom"})
-      |> render_body("welcome.custom")
-    end
 
     def welcome_html_layout() do
       email()
@@ -98,32 +80,6 @@ defmodule Phoenix.SwooshTest do
       |> render_body(:welcome_assigns, %{name: "Tony"})
     end
 
-    def welcome_formats() do
-      email()
-      |> put_formats(%{"html" => "custom", "text" => "text"})
-      |> render_body(:welcome, %{})
-    end
-
-    def welcome_formats_assigns() do
-      email()
-      |> put_formats(%{"html" => "custom", "text" => "text"})
-      |> render_body(:welcome_assigns, %{name: "Tony"})
-    end
-
-    def welcome_formats_layout() do
-      email()
-      |> put_formats(%{"html" => "custom", "text" => "text"})
-      |> put_layout({LayoutView, :email})
-      |> render_body(:welcome, %{})
-    end
-
-    def welcome_formats_layout_assigns() do
-      email()
-      |> put_formats(%{"html" => "custom", "text" => "text"})
-      |> put_layout({LayoutView, :email})
-      |> render_body(:welcome_assigns, %{name: "Tony"})
-    end
-
     def email() do
       %Email{}
       |> from("tony@stark.com")
@@ -146,7 +102,7 @@ defmodule Phoenix.SwooshTest do
 
   defmodule TestEmailLayoutFormats do
     use Phoenix.Swoosh,
-      formats: %{"html" => "custom", "text" => "text"},
+      formats: %{"custom" => :html_body, "text" => :text_body},
       view: EmailView,
       layout: {LayoutView, :email}
 
@@ -186,7 +142,7 @@ defmodule Phoenix.SwooshTest do
 
   defmodule TestViewIncludedNotifierFormats do
     use Phoenix.Swoosh,
-      formats: %{"html" => "custom", "text" => "text"},
+      formats: %{"custom" => :html_body, "text" => :text_body},
       template_root: "test/fixtures/templates",
       template_namespace: Phoenix.SwooshTest
 
@@ -304,11 +260,6 @@ defmodule Phoenix.SwooshTest do
     assert %Email{text_body: "Welcome, Avengers!\n"} = TestEmail.welcome_text()
   end
 
-  test "macro: render html body with custom format" do
-    assert %Email{html_body: "<element>Welcome, Avengers!</element>\n"} =
-             TestEmail.welcome_custom()
-  end
-
   test "macro: render html body with layout" do
     assert %Email{html_body: "<html><h1>Welcome, Avengers!</h1>\n</html>\n"} =
              TestEmail.welcome_html_layout()
@@ -337,22 +288,12 @@ defmodule Phoenix.SwooshTest do
     assert %Email{text_body: "Welcome, Avengers!\n"} = TestEmail.welcome_text_without_assigns()
   end
 
-  test "macro: render html body with custom format and without assigns" do
-    assert %Email{html_body: "<element>Welcome, Avengers!</element>\n"} =
-             TestEmail.welcome_custom_without_assigns()
-  end
-
   test "macro: render html body with assigns" do
     assert %Email{html_body: "<h1>Welcome, Tony!</h1>\n"} = TestEmail.welcome_html_assigns()
   end
 
   test "macro: render text body with assigns" do
     assert %Email{text_body: "Welcome, Tony!\n"} = TestEmail.welcome_text_assigns()
-  end
-
-  test "macro: render html body with custom format and assigns" do
-    assert %Email{html_body: "<element>Welcome, Tony!</element>\n"} =
-             TestEmail.welcome_custom_assigns()
   end
 
   test "macro: render html body with layout and assigns" do
@@ -386,34 +327,6 @@ defmodule Phoenix.SwooshTest do
              html_body: "<html><h1>Welcome, Tony!</h1>\n</html>\n",
              text_body: "TEXT: Welcome, Tony!\n\n"
            } = TestEmail.welcome_layout_assigns()
-  end
-
-  test "macro: render both html and text body with custom formats" do
-    assert %Email{
-             html_body: "<element>Welcome, Avengers!</element>\n",
-             text_body: "Welcome, Avengers!\n"
-           } = TestEmail.welcome_formats()
-  end
-
-  test "macro: render both html and text body with custom formats and assigns" do
-    assert %Email{
-             html_body: "<element>Welcome, Tony!</element>\n",
-             text_body: "Welcome, Tony!\n"
-           } = TestEmail.welcome_formats_assigns()
-  end
-
-  test "macro: render both html and text body with custom formats and layout" do
-    assert %Email{
-             html_body: "<layout><element>Welcome, Avengers!</element>\n</layout>\n",
-             text_body: "TEXT: Welcome, Avengers!\n\n"
-           } = TestEmail.welcome_formats_layout()
-  end
-
-  test "macro: render both html and text body with custom formats, layout, and assigns" do
-    assert %Email{
-             html_body: "<layout><element>Welcome, Tony!</element>\n</layout>\n",
-             text_body: "TEXT: Welcome, Tony!\n\n"
-           } = TestEmail.welcome_formats_layout_assigns()
   end
 
   test "macro: use layout when provided via `use` macro " do
@@ -501,11 +414,5 @@ defmodule Phoenix.SwooshTest do
 
     assert email |> render_body("format_text.unknown", %{}) |> Map.fetch!(:text_body) =~
              "This is a text template"
-
-    assert email
-           |> put_formats(%{"html" => "custom", "text" => "text"})
-           |> render_body("format_html.custom", %{})
-           |> Map.fetch!(:html_body) =~
-             "This is an HTML template"
   end
 end

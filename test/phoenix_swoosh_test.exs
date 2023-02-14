@@ -106,7 +106,7 @@ defmodule Phoenix.SwooshTest do
       view: EmailView,
       layout: {LayoutView, :email}
 
-    def welcome() do
+    def welcome do
       %Email{}
       |> from("tony@stark.com")
       |> to("steve@rogers.com")
@@ -329,14 +329,14 @@ defmodule Phoenix.SwooshTest do
            } = TestEmail.welcome_layout_assigns()
   end
 
-  test "macro: use layout when provided via `use` macro " do
+  test "macro: use layout when provided via `use` macro" do
     assert %Email{
              html_body: "<html><h1>Welcome, Avengers!</h1>\n</html>\n",
              text_body: "TEXT: Welcome, Avengers!\n\n"
            } = TestEmailLayout.welcome()
   end
 
-  test "macro: use layout for custom format when provided via `use` macro " do
+  test "macro: use layout for custom format when provided via `use` macro" do
     assert %Email{
              html_body: "<layout><element>Welcome, Avengers!</element>\n</layout>\n",
              text_body: "TEXT: Welcome, Avengers!\n\n"
@@ -398,21 +398,21 @@ defmodule Phoenix.SwooshTest do
 
   test "body formats are set according to template file extension", %{email: email} do
     assert email |> render_body("format_html.html", %{}) |> Map.fetch!(:html_body) =~
-             "This is an HTML template"
+             "HTML template with the .html extension"
 
     assert email |> render_body("format_html.htm", %{}) |> Map.fetch!(:html_body) =~
-             "This is an HTML template"
+             "HTML template with the .htm extension"
 
     assert email |> render_body("format_html.xml", %{}) |> Map.fetch!(:html_body) =~
-             "This is an HTML template"
+             "HTML template with the .xml extension"
 
     assert email |> render_body("format_text.txt", %{}) |> Map.fetch!(:text_body) =~
-             "This is a text template"
+             "text template with the .txt extension"
 
     assert email |> render_body("format_text.text", %{}) |> Map.fetch!(:text_body) =~
-             "This is a text template"
+             "text template with the .text extension"
 
     assert email |> render_body("format_text.unknown", %{}) |> Map.fetch!(:text_body) =~
-             "This is a text template"
+             "text template with an unknown extension"
   end
 end

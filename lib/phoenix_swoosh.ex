@@ -44,14 +44,8 @@ defmodule Phoenix.Swoosh do
       end
 
       def render_body(email, template, assigns \\ %{}) do
-        email =
-          if formats = unquote(formats) do
-            put_new_formats(email, Map.keys(formats), formats)
-          else
-            email
-          end
-
         email
+        |> put_new_formats(unquote(formats))
         |> put_new_layout(unquote(layout))
         |> put_new_view(unquote(view_module))
         |> Phoenix.Swoosh.render_body(template, assigns)
@@ -168,11 +162,13 @@ defmodule Phoenix.Swoosh do
   @doc """
   Stores the formats for rendering if none was stored yet.
   """
-  def put_new_formats(email, extensions, extensions_to_body_key) do
+  def put_new_formats(email, nil), do: email
+
+  def put_new_formats(email, extension_format_map) do
     update_in(email.private, fn private ->
       private
-      |> Map.put_new(:phoenix_extensions, extensions)
-      |> Map.put_new(:phoenix_extensions_to_body_key, extensions_to_body_key)
+      |> Map.put_new(:phoenix_extensions, Map.keys(extension_format_map))
+      |> Map.put_new(:phoenix_extensions_to_body_key, extension_format_map)
     end)
   end
 
@@ -240,7 +236,7 @@ defmodule Phoenix.Swoosh do
   @doc """
   Retrieves the current layout of an email.
   """
-  def layout(email), do: email.private |> Map.get(:phoenix_layout, false)
+  def layout(email), do: Map.get(email.private, :phoenix_layout, false)
 
   @doc """
   Stores the view for rendering.
@@ -269,19 +265,21 @@ defmodule Phoenix.Swoosh do
     )
   end
 
+  @default_mapping %{
+    "htm" => :html_body,
+    "html" => :html_body,
+    "text" => :text_body,
+    "xml" => :html_body
+  }
+
   defp extension_to_body_key(email, extension) do
     email.private
-    |> Map.get(:phoenix_extensions_to_body_key, %{
-      "htm" => :html_body,
-      "html" => :html_body,
-      "text" => :text_body,
-      "xml" => :html_body
-    })
+    |> Map.get(:phoenix_extensions_to_body_key, @default_mapping)
     |> Map.get(extension, :text_body)
   end
 
   defp extensions(email) do
-    email.private |> Map.get(:phoenix_extensions, ["html", "text"])
+    Map.get(email.private, :phoenix_extensions, ["html", "text"])
   end
 
   defp layout(email, assigns, extension) do

@@ -133,6 +133,59 @@ will be passed to `Phoenix.View` as `root`, `path` and `namespace`.
 
 Layout can be setup the same way as classic setup.
 
+## Customization
+
+When using either the classic or standalone setup described above, the
+extensions of the templates used can be customized. For example, let's say
+MJML is the desired markup language to use for HTML emails, and there's a
+template such as:
+
+```eex
+# path_to/templates/user_notifier/welcome.mjml.eex
+
+<mjml>
+  <mj-body>
+    <mj-text>Welcome to Sample, <%= @name %>!</mj-text>
+  </mj-body>
+</mjml>
+```
+
+Phoenix.Swoosh can be configured to use the "mjml" extension when rendering the
+HTML body of the email:
+
+```elixir
+# path_to/notifiers/user_notifier.ex
+defmodule Sample.UserNotifier do
+  use Phoenix.Swoosh,
+    formats: %{"mjml" => :html_body, "text" => :text_body}
+
+  # ... same welcome as above ...
+end
+```
+
+This requires that Phoenix knows how to handle templates using the "mjml"
+format. This can be done by creating a module that exports
+`encode_to_iodata!/1`:
+
+```elixir
+defmodule Sample.Mjml do
+  def encode_to_iodata!(mjml) do
+    with {:ok, html} <- Mjml.to_html(mjml) do
+      html
+    end
+  end
+end
+```
+
+And then configuring Phoenix to use it:
+
+```elixir
+config :phoenix, format_encoders: [mjml: Sample.Mjml]
+```
+
+The above example is using [`mjml`](https://hex.pm/packages/mjml), which would
+need to be installed as well.
+
 ## Copyright and License
 
 Copyright (c) 2021 Swoosh contributors

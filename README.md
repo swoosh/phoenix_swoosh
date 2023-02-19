@@ -7,7 +7,7 @@
 [![License](https://img.shields.io/hexpm/l/phoenix_swoosh.svg)](https://github.com/swoosh/phoenix_swoosh/blob/master/LICENSE)
 [![Last Updated](https://img.shields.io/github/last-commit/swoosh/phoenix_swoosh.svg)](https://github.com/swoosh/phoenix_swoosh/commits/master)
 
-`Phoenix.View` + `Swoosh`.
+`Phoenix.View` + `Swoosh`. ([Discuss about the future post-Phoenix-1.7 here](https://github.com/swoosh/phoenix_swoosh/issues/287))
 
 This module provides the ability to set the HTML and/or text body of an email by rendering templates.
 

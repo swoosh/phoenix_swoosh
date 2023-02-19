@@ -5,6 +5,20 @@ defmodule Phoenix.Swoosh do
 
   It utilizes `Phoenix.View` and can work very well both standalone
   and in apps using `Phoenix` framework.
+
+
+  `use Phoenix.Swoosh` also accepts a list of options which configures where
+  templates will be looked up:
+
+    * `:view` - for "classic" setup, the view module to use for rendering
+    * `:template_path` - for "standalone" setup, given to `Phoenix.View` as `path`
+    * `:template_root` - for "standalone" setup, given to `Phoenix.View` as `root`
+    * `:template_namespace` - for "standalone" setup, given to `Phoenix.View` as
+    `namespace`
+    * `:layout` - the layout to render the templates in. Must be a tuple,
+    specifying the layout view and the layout name, or `false`
+    * `:formats` - to customize the extensions of the templates. Must be a map,
+    with key being the extension and the value being the body field to set
   """
 
   import Swoosh.Email

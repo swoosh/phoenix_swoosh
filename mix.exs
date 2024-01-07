@@ -2,7 +2,7 @@ defmodule PhoenixSwoosh.Mixfile do
   use Mix.Project
 
   @source_url "https://github.com/swoosh/phoenix_swoosh"
-  @version "1.2.0"
+  @version "1.2.1"
 
   def project do
     [
@@ -27,7 +27,7 @@ defmodule PhoenixSwoosh.Mixfile do
     [
       {:swoosh, "~> 1.5"},
       {:phoenix_view, "~> 1.0 or ~> 2.0"},
-      {:phoenix_html, "~> 3.0", optional: true},
+      {:phoenix_html, "~> 3.0 or ~> 4.0", optional: true},
       {:hackney, "~> 1.10", optional: true},
       {:finch, "~> 0.8", optional: true},
       {:phoenix, "~> 1.6", optional: true},

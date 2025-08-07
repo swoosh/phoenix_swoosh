@@ -30,7 +30,7 @@ defmodule PhoenixSwoosh.Mixfile do
       {:phoenix_html, "~> 3.0 or ~> 4.0", optional: true},
       {:hackney, "~> 1.10", optional: true},
       {:finch, "~> 0.8", optional: true},
-      {:phoenix, "~> 1.6", optional: true},
+      {:phoenix, "~> 1.8", optional: true},
       {:credo, "~> 1.0", only: [:dev, :test]},
       {:ex_doc, "~> 0.26", only: :docs, runtime: false}
     ]

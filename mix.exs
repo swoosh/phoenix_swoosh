@@ -61,7 +61,7 @@ defmodule PhoenixSwoosh.Mixfile do
       source_url: @source_url,
       source_ref: "v#{@version}",
       api_reference: false,
-      formatters: ["html"]
+      formatters: ["html", "markdown"]
     ]
   end
 end
